@@ -8,146 +8,534 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+
         <converter:PercentageConverter x:Key="PercentageConverter" />
+
+        <!-- ===== MODERN COLOR PALETTE ===== -->
+        <Color x:Key="BgDark">#0A0E1A</Color>
+        <!-- Deep navy background -->
+        <Color x:Key="BgPanel">#111827</Color>
+        <!-- Card background -->
+        <Color x:Key="BgPanelLight">#1A202E</Color>
+        <!-- Lighter panel -->
+        <Color x:Key="BgHover">#1E293B</Color>
+        <!-- Hover state -->
+        <Color x:Key="AccentBlue">#3B82F6</Color>
+        <!-- Primary accent -->
+        <Color x:Key="AccentCyan">#06B6D4</Color>
+        <!-- Secondary accent -->
+        <Color x:Key="TextPrimary">#F1F5F9</Color>
+        <!-- Bright text -->
+        <Color x:Key="TextSecondary">#CBD5E1</Color>
+        <!-- Secondary text -->
+        <Color x:Key="TextDim">#64748B</Color>
+        <!-- Dim text -->
+        <Color x:Key="GridLines">#1E293B</Color>
+        <!-- Subtle grid lines -->
+        <Color x:Key="BorderSubtle">#334155</Color>
+        <!-- Subtle borders -->
+
+        <!-- Ask/Bid colors with better contrast -->
+        <Color x:Key="AskRed">#EF4444</Color>
+        <Color x:Key="AskRedDim">#DC2626</Color>
+        <Color x:Key="BidGreen">#10B981</Color>
+        <Color x:Key="BidGreenDim">#059669</Color>
+
+        <SolidColorBrush x:Key="BgDarkBrush" Color="{StaticResource BgDark}" />
+        <SolidColorBrush x:Key="BgPanelBrush" Color="{StaticResource BgPanel}" />
+        <SolidColorBrush x:Key="BgPanelLightBrush" Color="{StaticResource BgPanelLight}" />
+        <SolidColorBrush x:Key="BgHoverBrush" Color="{StaticResource BgHover}" />
+        <SolidColorBrush x:Key="AccentBlueBrush" Color="{StaticResource AccentBlue}" />
+        <SolidColorBrush x:Key="AccentCyanBrush" Color="{StaticResource AccentCyan}" />
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimary}" />
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondary}" />
+        <SolidColorBrush x:Key="TextDimBrush" Color="{StaticResource TextDim}" />
+        <SolidColorBrush x:Key="GridLinesBrush" Color="{StaticResource GridLines}" />
+        <SolidColorBrush x:Key="BorderSubtleBrush" Color="{StaticResource BorderSubtle}" />
+
+        <!-- ===== USERCONTROL BACKGROUND ===== -->
+        <Style TargetType="UserControl">
+            <Setter Property="Background" Value="{StaticResource BgDarkBrush}" />
+            <Setter Property="TextElement.Foreground" Value="{StaticResource TextPrimaryBrush}" />
+            <Setter Property="FontFamily" Value="Inter, Segoe UI, Arial"/>
+            <Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+        </Style>
+
+        <!-- ===== DATAGRID ===== -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="{StaticResource BgPanelBrush}" />
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderSubtleBrush}"/>
+            <Setter Property="RowBackground" Value="Transparent" />
+            <Setter Property="AlternatingRowBackground" Value="#00000000"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+            <Setter Property="RowHeight" Value="32"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+        </Style>
+
+        <!-- Column Headers -->
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="{StaticResource BgPanelLightBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextDimBrush}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="BorderThickness" Value="0,0,0,2"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderSubtleBrush}"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Height" Value="36"/>
+        </Style>
+
+        <!-- Rows with enhanced hover and selection -->
+        <Style TargetType="DataGridRow">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Margin" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource BgHoverBrush}"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="#1E40AF" Opacity="0.3"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsSelected" Value="True"/>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="#1E40AF" Opacity="0.4"/>
+                        </Setter.Value>
+                    </Setter>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Cells with better spacing -->
+        <Style TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- ===== CANVAS BACKGROUND ===== -->
+        <Style TargetType="Canvas">
+            <Setter Property="Background" Value="{StaticResource BgPanelBrush}"/>
+        </Style>
+
+        <!-- ===== PRICE TEXT ON CANVAS ===== -->
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextDimBrush}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="FontFamily" Value="Consolas, Courier New"/>
+        </Style>
+
+        <!-- ===== ASK RECTANGLES ===== -->
+        <Style x:Key="AskRectangleStyle" TargetType="Rectangle">
+            <Setter Property="Fill">
+                <Setter.Value>
+                    <SolidColorBrush Color="{StaticResource AskRedDim}" Opacity="0.25"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="StrokeThickness" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Fill">
+                        <Setter.Value>
+                            <SolidColorBrush Color="{StaticResource AskRed}" Opacity="0.5"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- ===== BID RECTANGLES ===== -->
+        <Style x:Key="BidRectangleStyle" TargetType="Rectangle">
+            <Setter Property="Fill">
+                <Setter.Value>
+                    <SolidColorBrush Color="{StaticResource BidGreenDim}" Opacity="0.25"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="StrokeThickness" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Fill">
+                        <Setter.Value>
+                            <SolidColorBrush Color="{StaticResource BidGreen}" Opacity="0.5"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- ===== GRID CONTAINER STYLE ===== -->
+        <Style x:Key="PanelContainerStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource BgPanelBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderSubtleBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+
     </UserControl.Resources>
-    <Grid>
+
+    <Grid Margin="12">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBox Text="{Binding RectWidth}" />
-        <!--<Canvas Background="Gray" Grid.Column="1" x:Name="canvas">
-            <Rectangle Height="10" Canvas.Top="0" Canvas.Right="0" Fill="Red" >
-                <Rectangle.Width>
-                    <MultiBinding Converter="{StaticResource PercentageConverter}">
-                        <Binding ElementName="canvas" Path="ActualWidth"/>
-                        <Binding Path="RectWidth" PresentationTraceSources.TraceLevel="High"/>
-                    </MultiBinding>
-                </Rectangle.Width>
-            </Rectangle>
-        </Canvas>-->
-        <Grid Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-            <Canvas x:Name="priceCanvas" Background="Gray" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <ItemsControl ItemsSource="{Binding ChartPrices}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas Width="{Binding ActualWidth, ElementName=canvas}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Yellow"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Price}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemContainerStyle>
-                        <Style TargetType="ContentPresenter">
-                            <Setter Property="Canvas.Top">
-                                <Setter.Value>
-                                    <MultiBinding Converter="{StaticResource PercentageConverter}">
-                                        <Binding ElementName="priceCanvas" Path="ActualHeight" />
-                                        <Binding Path="Offset" />
-                                    </MultiBinding>
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="Canvas.Left" Value="10"/>
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-                </ItemsControl>
-            </Canvas>
+        <!-- TOP LEFT: Bids and Asks Side by Side -->
+        <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource PanelContainerStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <Canvas x:Name="canvas" Background="Gray" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <ItemsControl ItemsSource="{Binding AskRectangles}" >
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas Width="{Binding ActualWidth, ElementName=canvas}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Yellow"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Rectangle Fill="Red" Stroke="Black" StrokeThickness="0.5">
-                                <Rectangle.Height>
-                                    <MultiBinding Converter="{StaticResource PercentageConverter}">
-                                        <Binding ElementName="canvas" Path="ActualHeight" />
-                                        <Binding Path="Height" />
-                                    </MultiBinding>
-                                </Rectangle.Height>
-                                <Rectangle.Width>
-                                    <MultiBinding Converter="{StaticResource PercentageConverter}">
-                                        <Binding ElementName="canvas" Path="ActualWidth"/>
-                                        <Binding Path="Quantity" />
-                                    </MultiBinding>
-                                </Rectangle.Width>
-                            </Rectangle>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                <!-- Bids Table -->
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                    <ItemsControl.ItemContainerStyle>
-                        <Style TargetType="ContentPresenter">
-                            <Setter Property="Canvas.Top">
-                                <Setter.Value>
-                                    <MultiBinding Converter="{StaticResource PercentageConverter}">
-                                        <Binding ElementName="canvas" Path="ActualHeight" />
-                                        <Binding Path="Offset" />
-                                    </MultiBinding>
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="Canvas.Right" Value="0"/>
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-                </ItemsControl>
+                    <!-- Header -->
+                    <Border Grid.Row="0" Background="{StaticResource BgPanelLightBrush}" 
+                            BorderBrush="{StaticResource BorderSubtleBrush}" 
+                            BorderThickness="0,0,0,1" 
+                            Padding="12,10">
+                        <TextBlock Text="BIDS" 
+                                   Foreground="#10B981" 
+                                   FontWeight="Bold" 
+                                   FontSize="12"
+                                   VerticalAlignment="Center"/>
+                    </Border>
 
-                <ItemsControl ItemsSource="{Binding BidRectangles}" >
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas Width="{Binding ActualWidth, ElementName=canvas}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Yellow"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Rectangle Fill="Green" Stroke="Black" StrokeThickness="0.5">
-                                <Rectangle.Height>
-                                    <MultiBinding Converter="{StaticResource PercentageConverter}">
-                                        <Binding ElementName="canvas" Path="ActualHeight" />
-                                        <Binding Path="Height" />
-                                    </MultiBinding>
-                                </Rectangle.Height>
-                                <Rectangle.Width>
-                                    <MultiBinding Converter="{StaticResource PercentageConverter}">
-                                        <Binding ElementName="canvas" Path="ActualWidth"/>
-                                        <Binding Path="Quantity" />
-                                    </MultiBinding>
-                                </Rectangle.Width>
-                            </Rectangle>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Bids}" BorderThickness="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="PRICE" Binding="{Binding Price}" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="#10B981"/>
+                                        <Setter Property="FontFamily" Value="Consolas, Courier New"/>
+                                        <Setter Property="FontWeight" Value="Medium"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="VOLUME" Binding="{Binding Volume}" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                        <Setter Property="FontFamily" Value="Consolas, Courier New"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
 
-                    <ItemsControl.ItemContainerStyle>
-                        <Style TargetType="ContentPresenter">
-                            <Setter Property="Canvas.Top">
-                                <Setter.Value>
-                                    <MultiBinding Converter="{StaticResource PercentageConverter}">
-                                        <Binding ElementName="canvas" Path="ActualHeight" />
-                                        <Binding Path="Offset" />
-                                    </MultiBinding>
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="Canvas.Left" Value="0"/>
-                        </Style>
-                    </ItemsControl.ItemContainerStyle>
-                </ItemsControl>
+                <!-- Separator -->
+                <Border Grid.Column="0" Width="1" HorizontalAlignment="Right" 
+                        Background="{StaticResource BorderSubtleBrush}"/>
 
-               
-            </Canvas>
-        </Grid>
-        
-        
-        
+                <!-- Asks Table -->
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
+                    <!-- Header -->
+                    <Border Grid.Row="0" Background="{StaticResource BgPanelLightBrush}" 
+                            BorderBrush="{StaticResource BorderSubtleBrush}" 
+                            BorderThickness="0,0,0,1" 
+                            Padding="12,10">
+                        <TextBlock Text="ASKS" 
+                                   Foreground="#EF4444" 
+                                   FontWeight="Bold" 
+                                   FontSize="12"
+                                   VerticalAlignment="Center"/>
+                    </Border>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Asks}" BorderThickness="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="PRICE" Binding="{Binding Price}" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="#EF4444"/>
+                                        <Setter Property="FontFamily" Value="Consolas, Courier New"/>
+                                        <Setter Property="FontWeight" Value="Medium"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="VOLUME" Binding="{Binding Volume}" Width="*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                        <Setter Property="FontFamily" Value="Consolas, Courier New"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- BOTTOM LEFT: Vertical Order Book -->
+        <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource PanelContainerStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <Border Grid.Row="0" Background="{StaticResource BgPanelLightBrush}" 
+                        BorderBrush="{StaticResource BorderSubtleBrush}" 
+                        BorderThickness="0,0,0,1" 
+                        Padding="12,10">
+                    <TextBlock Text="ORDER BOOK" 
+                               Foreground="{StaticResource AccentCyanBrush}" 
+                               FontWeight="Bold" 
+                               FontSize="12"
+                               VerticalAlignment="Center"/>
+                </Border>
+
+                <DataGrid Grid.Row="1" ItemsSource="{Binding VerticalBook}" BorderThickness="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="PRICE" Binding="{Binding Price}" Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                    <Setter Property="FontFamily" Value="Consolas, Courier New"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="ASK QTY" Binding="{Binding AskQuantity}" Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#EF4444"/>
+                                    <Setter Property="FontFamily" Value="Consolas, Courier New"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="BID QTY" Binding="{Binding BidQuantity}" Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#10B981"/>
+                                    <Setter Property="FontFamily" Value="Consolas, Courier New"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+        <!-- RIGHT: Depth Chart Visualization -->
+        <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Style="{StaticResource PanelContainerStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <Border Grid.Row="0" Background="{StaticResource BgPanelLightBrush}" 
+                        BorderBrush="{StaticResource BorderSubtleBrush}" 
+                        BorderThickness="0,0,0,1" 
+                        Padding="12,10">
+                    <TextBlock Text="DEPTH CHART" 
+                               Foreground="{StaticResource AccentBlueBrush}" 
+                               FontWeight="Bold" 
+                               FontSize="12"
+                               VerticalAlignment="Center"/>
+                </Border>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Price Labels -->
+                    <Canvas x:Name="priceCanvas" Grid.Column="0" 
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            Background="{StaticResource BgPanelLightBrush}">
+                        <ItemsControl ItemsSource="{Binding ChartPrices}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas Width="{Binding ActualWidth, ElementName=priceCanvas}" 
+                                            HorizontalAlignment="Stretch" 
+                                            VerticalAlignment="Stretch"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Price}" 
+                                               Foreground="{StaticResource TextDimBrush}"
+                                               FontSize="10"
+                                               FontFamily="Consolas, Courier New"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemContainerStyle>
+                                <Style TargetType="ContentPresenter">
+                                    <Setter Property="Canvas.Top">
+                                        <Setter.Value>
+                                            <MultiBinding Converter="{StaticResource PercentageConverter}">
+                                                <Binding ElementName="priceCanvas" Path="ActualHeight" />
+                                                <Binding Path="Offset" />
+                                            </MultiBinding>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Canvas.Left" Value="8"/>
+                                </Style>
+                            </ItemsControl.ItemContainerStyle>
+                        </ItemsControl>
+                    </Canvas>
+
+                    <!-- Vertical Separator -->
+                    <Border Grid.Column="0" Width="1" HorizontalAlignment="Right" 
+                            Background="{StaticResource BorderSubtleBrush}"/>
+
+                    <!-- Ask Rectangles (Left side) -->
+                    <Canvas x:Name="canvas" Grid.Column="1" 
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <ItemsControl ItemsSource="{Binding AskRectangles}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas Width="{Binding ActualWidth, ElementName=canvas}" 
+                                            HorizontalAlignment="Stretch" 
+                                            VerticalAlignment="Stretch"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Rectangle Style="{StaticResource AskRectangleStyle}">
+                                        <Rectangle.Height>
+                                            <MultiBinding Converter="{StaticResource PercentageConverter}">
+                                                <Binding ElementName="canvas" Path="ActualHeight" />
+                                                <Binding Path="Height" />
+                                            </MultiBinding>
+                                        </Rectangle.Height>
+                                        <Rectangle.Width>
+                                            <MultiBinding Converter="{StaticResource PercentageConverter}">
+                                                <Binding ElementName="canvas" Path="ActualWidth"/>
+                                                <Binding Path="Quantity" />
+                                            </MultiBinding>
+                                        </Rectangle.Width>
+                                    </Rectangle>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemContainerStyle>
+                                <Style TargetType="ContentPresenter">
+                                    <Setter Property="Canvas.Top">
+                                        <Setter.Value>
+                                            <MultiBinding Converter="{StaticResource PercentageConverter}">
+                                                <Binding ElementName="canvas" Path="ActualHeight" />
+                                                <Binding Path="Offset" />
+                                            </MultiBinding>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Canvas.Right" Value="0"/>
+                                </Style>
+                            </ItemsControl.ItemContainerStyle>
+                        </ItemsControl>
+                    </Canvas>
+
+                    <!-- Center Separator -->
+                    <Border Grid.Column="1" Width="2" HorizontalAlignment="Right" 
+                            Background="{StaticResource BorderSubtleBrush}"/>
+
+                    <!-- Bid Rectangles (Right side) -->
+                    <Canvas x:Name="canvas2" Grid.Column="2" 
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <ItemsControl ItemsSource="{Binding BidRectangles}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas Width="{Binding ActualWidth, ElementName=canvas2}" 
+                                            HorizontalAlignment="Stretch" 
+                                            VerticalAlignment="Stretch"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Rectangle Style="{StaticResource BidRectangleStyle}">
+                                        <Rectangle.Height>
+                                            <MultiBinding Converter="{StaticResource PercentageConverter}">
+                                                <Binding ElementName="canvas2" Path="ActualHeight" />
+                                                <Binding Path="Height" />
+                                            </MultiBinding>
+                                        </Rectangle.Height>
+                                        <Rectangle.Width>
+                                            <MultiBinding Converter="{StaticResource PercentageConverter}">
+                                                <Binding ElementName="canvas2" Path="ActualWidth"/>
+                                                <Binding Path="Quantity" />
+                                            </MultiBinding>
+                                        </Rectangle.Width>
+                                    </Rectangle>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemContainerStyle>
+                                <Style TargetType="ContentPresenter">
+                                    <Setter Property="Canvas.Top">
+                                        <Setter.Value>
+                                            <MultiBinding Converter="{StaticResource PercentageConverter}">
+                                                <Binding ElementName="canvas2" Path="ActualHeight" />
+                                                <Binding Path="Offset" />
+                                            </MultiBinding>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Canvas.Left" Value="0"/>
+                                </Style>
+                            </ItemsControl.ItemContainerStyle>
+                        </ItemsControl>
+                    </Canvas>
+                </Grid>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

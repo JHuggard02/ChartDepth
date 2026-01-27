@@ -17,6 +17,9 @@ namespace ChartDepth.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private ObservableCollection<PriceLevel> _bids;
+        private ObservableCollection<PriceLevel> _asks;
+
 
         private string _title;
         private double _rectWidth;
@@ -25,6 +28,7 @@ namespace ChartDepth.ViewModels
         private ObservableCollection<RectangleModel> _bidRectangles;
         private ObservableCollection<RectangleModel> _askRectangles;
         private ObservableCollection<ChartPriceModel> _chartPrices;
+        private ObservableCollection<InfoRows> _verticalBook;
 
         private TickerInfo _tickerInfo;
 
@@ -48,6 +52,34 @@ namespace ChartDepth.ViewModels
             OnPropertyChanged(nameof(Rectangles));
             OnPropertyChanged(nameof(BidRectangles));
             OnPropertyChanged(nameof(AskRectangles));
+
+            _bids = new ObservableCollection<PriceLevel>();
+            _asks = new ObservableCollection<PriceLevel>();
+
+            _bids.Add(new PriceLevel(12.4, 100));
+            _bids.Add(new PriceLevel(12.6, 200));
+            _bids.Add(new PriceLevel(12.8, 300));
+
+            _asks.Add(new PriceLevel(13.1, 200));
+            _asks.Add(new PriceLevel(13.4, 300));
+            _asks.Add(new PriceLevel(13.7, 500));
+
+            OnPropertyChanged(nameof(Bids));
+            OnPropertyChanged(nameof(Asks));
+
+            _verticalBook = new ObservableCollection<InfoRows>();
+
+            _verticalBook.Add(new InfoRows(11.7, 10, 0));
+            _verticalBook.Add(new InfoRows(11.6, 10, 0));
+            _verticalBook.Add(new InfoRows(11.5, 10, 0));
+            _verticalBook.Add(new InfoRows(11.4, 0, 0));
+            _verticalBook.Add(new InfoRows(11.3, 0, 0));
+            _verticalBook.Add(new InfoRows(11.2, 0, 10));
+            _verticalBook.Add(new InfoRows(11.1, 0, 10));
+            _verticalBook.Add(new InfoRows(11.0, 0, 10));
+
+            OnPropertyChanged(nameof(VerticalBook));
+
         }
 
         public string Title
@@ -139,6 +171,21 @@ namespace ChartDepth.ViewModels
                     OnPropertyChanged();
                 }
             }
+        }
+
+        public ObservableCollection<PriceLevel> Bids
+        {
+            get { return _bids; }
+        }
+
+        public ObservableCollection<PriceLevel> Asks
+        {
+            get { return _asks; }
+        }
+
+        public ObservableCollection<InfoRows> VerticalBook
+        {
+            get { return _verticalBook; }
         }
     }
 }
