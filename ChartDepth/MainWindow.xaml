@@ -16,7 +16,7 @@
         Background="#0A0E1A">
 
     <Window.DataContext>
-        <viewModels:ChartViewModel />
+        <viewModels:MarketMakerViewModel />
     </Window.DataContext>
 
     <Window.Resources>
@@ -297,7 +297,7 @@
                 </Border>
 
                 <!-- Main Content Area -->
-                <views:ChartView Grid.Row="1"/>
+                <views:MarketMakerView Grid.Row="1"/>
             </Grid>
         </Border>
     </Grid>
